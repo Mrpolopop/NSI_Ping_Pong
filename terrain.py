@@ -34,5 +34,29 @@ def eteindre(temps):
     np_0.show()
 
 
+def balle_gauche(delta, start):
+    for i in range(start, NP_LED_COUNT_0):
+        color = np_0[i]
+        np_0[i] = (200, 200, 200)
+        np_0.show()
+        time.sleep(delta)
+        np_0[i] = color
+        np_0.show()
+
+
+def balle_droite(delta, start):
+    for i in range(start, -1, -1):
+        color = np_0[i]
+        np_0[i] = (200, 200, 200)
+        np_0.show()
+        time.sleep(delta)
+        np_0[i] = color
+        np_0.show()
+
+
+terrain()
+eteindre(1)
+
+
 terrain()
 eteindre(60)
