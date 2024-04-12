@@ -45,6 +45,8 @@ def balle_gauche(delta, start):
         time.sleep(delta)
         np_0[i] = color
         np_0.show()
+        if button_b.was_pressed():
+          return i
 
 
 def balle_droite(delta, start):
@@ -55,6 +57,8 @@ def balle_droite(delta, start):
         time.sleep(delta)
         np_0[i] = color
         np_0.show()
+        if button_a.was_pressed():
+          return i
 
 
 def eteindre(temps):
@@ -68,10 +72,26 @@ def eteindre(temps):
 
 def service_depart():
   nombre = randint(1,2)
+  i = None
   if nombre == 1:
-    balle_droite(0.15, 14)
+    i = balle_droite(0.15, 14)
+    return True, i
   else:
-    balle_gauche(0.15, 14)
+    i = balle_gauche(0.15, 14)
+    return False, i
+
+def jeu():
+  terrain()
+  droite, i = service_depart()
+  
+  while True:
+    if droite:
+      droite = False
+      i = balle_gauche(0.3, i)
+    else:
+      droite = True
+      i = balle_droite(0.3, i)
+      eteindre(1)
 
 
 if __name__ == "__main__":
