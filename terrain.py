@@ -5,6 +5,7 @@ from random import randint
 from lcd_i2c import LCD1602
 
 lcd = LCD1602()
+
 NP_LED_COUNT_0 = 30
 
 # Neopixel on pin0
@@ -28,12 +29,12 @@ def terrain():
     np_0.show()
     
 
-#def ecran_lcd():
-  
-#  lcd.clear()
-#  lcd.getCursor(0, 0)
-#  lcd.writeTxt('Joueur 1')
-  
+def ecran_lcd():
+  lcd.clear()
+  lcd.setCursor(0, 0)
+  lcd.writeTxt('J1 : ')
+  lcd.setCursor(0, 1)
+  lcd.writeTxt('J2 : ')
 
 
 def balle_gauche(delta, start):
