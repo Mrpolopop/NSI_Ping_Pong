@@ -111,6 +111,3 @@ def jeu():
             else:
                 i = balle_droite(0.3, i)
 
-
-if __name__ == "__main__":
-    jeu()
