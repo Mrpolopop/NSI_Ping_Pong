@@ -90,7 +90,7 @@ def service_depart():
         i = balle_gauche(0.15, 14)
         return False, i
 
-
+# utiliser fonc game() dans fichier jeu.py
 def jeu():
     terrain()
     droite, i = service_depart()
