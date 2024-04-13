@@ -12,7 +12,7 @@ np_0 = neopixel.NeoPixel(pin0, NP_LED_COUNT_0)
 def terrain():
     led_rouge = [1, 28]
     led_orange = [2, 3, 26, 27]
-    led_verte = [4, 5, 6, 23, 24, 24]
+    led_verte = [4, 5, 6, 23, 24, 25]
 
     for led in led_rouge:
         np_0[led] = (255, 0, 0)
@@ -34,23 +34,29 @@ def terrain():
 
 
 def balle_gauche(delta, start):
+    # de droite à gauche
     for i in range(start, NP_LED_COUNT_0):
+
+        # affichage
         color = np_0[i]
         np_0[i] = (200, 200, 200)
         np_0.show()
         time.sleep(delta)
         np_0[i] = color
         np_0.show()
+
+        # event listener
         if button_b.was_pressed():
             return i
         elif i == 29:
-            eteindre(1)
             return False
 
 
 def balle_droite(delta, start):
+    # de gauche à droite
     for i in range(start, -1, -1):
 
+        # affichage
         color = np_0[i]
         np_0[i] = (200, 200, 200)
         np_0.show()
@@ -58,10 +64,10 @@ def balle_droite(delta, start):
         np_0[i] = color
         np_0.show()
 
+        # event listener
         if button_a.was_pressed():
             return i
         elif i == 0:
-            eteindre(1)
             return False
 
 
