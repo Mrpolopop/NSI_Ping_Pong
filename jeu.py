@@ -50,5 +50,5 @@ def game(droite, i):
 
 
 if __name__ == '__main__':
-    sense, i = on_start()
+    sens, i = on_start()
     game(sense, i)
