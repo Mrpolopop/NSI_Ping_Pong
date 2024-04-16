@@ -12,6 +12,16 @@ NP_LED_COUNT_0 = 30
 # Neopixel on pin0
 np_0 = neopixel.NeoPixel(pin0, NP_LED_COUNT_0)
 
+led_rouge = [1, 28]
+led_orange = [2, 3, 26, 27]
+led_verte = [4, 5, 6, 23, 24, 25]
+led_rouge_g = [1]
+led_rouge_d = [28]
+led_orange_g = [2, 3] 
+led_orange_d = [26, 27]
+led_verte_g = [4, 5, 6]
+led_verte_d = [23, 24, 25]
+
 
 #############################
 ####      fonctions      ####
@@ -151,7 +161,7 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jd += 1
-                droite, i = service_depart()
+                droite, i, delta = service_depart()
             else:
                 i = result[0]
                 delta = result[1]
@@ -166,7 +176,7 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jg += 1
-                droite, i = service_depart()
+                droite, i, delta = service_depart()
             else:
                 i = result[0]
                 delta = result[1]
