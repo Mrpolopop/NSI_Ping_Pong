@@ -21,6 +21,12 @@ def terrain():
     led_rouge = [1, 28]
     led_orange = [2, 3, 26, 27]
     led_verte = [4, 5, 6, 23, 24, 25]
+    led_rouge_g = [1]
+    led_rouge_d = [28]
+    led_orange_g = [2, 3] 
+    led_orange_d = [26, 27]
+    led_verte_g = [4, 5, 6]
+    led_verte_d = [23, 24, 25]
 
     for led in led_rouge:
         np_0[led] = (255, 0, 0)
@@ -55,9 +61,19 @@ def balle_gauche(delta, start):
 
         # event listener
         if button_b.is_pressed():
-            print('gauche')
-            return i
-        elif i == 29:
+          if i in led_verte_g:
+            return [i , 0.12]
+          
+          elif i in led_orange_g:
+            return [i, 0.10]
+          
+          elif i in led_rouge_g:
+            return [i, 0.10]
+            
+          else:
+            return False
+          
+        elif i == 28:
             return False
 
 
@@ -75,9 +91,20 @@ def balle_droite(delta, start):
 
         # event listener
         if button_a.is_pressed():
+          if i in led_verte_d:
             print('droite')
-            return i
-        elif i == 0:
+            return [i , 0.12]
+          
+          elif i in led_orange_d:
+            return [i, 0.10]
+          
+          elif i in led_rouge_d:
+            return [i, 0.10]
+            
+          else:
+            return False
+          
+        elif i == 1:
             return False
 
 
