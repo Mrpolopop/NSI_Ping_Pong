@@ -94,9 +94,9 @@ def service_depart():
     nombre = randint(1, 2)
     i = None
     if nombre == 1:
-        return True, 14
+        return True, 14, 0.12
     else:
-        return False, 14
+        return False, 14, 0.12
 
 
 #################################
@@ -108,7 +108,7 @@ def on_start():
     return service_depart()
 
 
-def game(droite, i):
+def game(droite, i, delta):
 
     compteur_jd = 0
     compteur_jg = 0
@@ -126,7 +126,8 @@ def game(droite, i):
                 compteur_jd += 1
                 droite, i = service_depart()
             else:
-                i = result
+                i = result[0]
+                delta = result[1]
                 droite = False
 
         # baller gauche à droite
@@ -134,21 +135,22 @@ def game(droite, i):
             
             display.show(compteur_jg)
             # result = i si bonne balle False sinon
-            result = balle_gauche(0.15, i)
+            result = balle_gauche(delta, i)
 
             if not result:
                 compteur_jg += 1
                 droite, i = service_depart()
             else:
-                i = result
+                i = result[0]
+                delta = result[1]
                 droite = True
 
     eteindre(5)
 
 
 if __name__ == '__main__':
-    #sense, i = on_start()
-    #game(sense, i)
+    #sense, i, delta = on_start()
+    #game(sense, i, delta)
     eteindre(1)
     
     # pb balle continue apres appuit sur bouton 
