@@ -78,10 +78,10 @@ def balle_gauche(delta, start):
             return [i , 0.12]
           
           elif i in led_orange_g:
-            return [i, 0.10]
+            return [i, 0.08]
           
           elif i in led_rouge_g:
-            return [i, 0.10]
+            return [i, 0.06]
             
           else:
             return False
@@ -112,10 +112,10 @@ def balle_droite(delta, start):
             return [i , 0.12]
           
           elif i in led_orange_d:
-            return [i, 0.10]
+            return [i, 0.08]
           
           elif i in led_rouge_d:
-            return [i, 0.10]
+            return [i, 0.06]
             
           else:
             return False
