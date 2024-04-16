@@ -52,4 +52,4 @@ def game(droite, i):
 
 if __name__ == '__main__':
     sens, i = on_start()
-    game(sense, i)
+    game(sens, i)
