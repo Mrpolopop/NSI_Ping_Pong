@@ -120,7 +120,7 @@ def game(droite, i, delta):
           
             display.show(compteur_jd)
             # result = i si bonne balle False sinon
-            result = balle_droite(0.15, i)
+            result = balle_droite(delta, i)
 
             if not result:
                 compteur_jd += 1
