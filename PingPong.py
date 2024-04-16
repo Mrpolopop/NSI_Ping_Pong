@@ -31,12 +31,12 @@ def terrain():
     led_rouge = [1, 28]
     led_orange = [2, 3, 26, 27]
     led_verte = [4, 5, 6, 23, 24, 25]
-    led_rouge_g = [1]
-    led_rouge_d = [28]
-    led_orange_g = [2, 3] 
-    led_orange_d = [26, 27]
-    led_verte_g = [4, 5, 6]
-    led_verte_d = [23, 24, 25]
+    led_rouge_d = [1]
+    led_rouge_g = [28]
+    led_orange_d = [2, 3] 
+    led_orange_g = [26, 27]
+    led_verte_d= [4, 5, 6]
+    led_verte_g = [23, 24, 25]
 
     for led in led_rouge:
         np_0[led] = (255, 0, 0)
@@ -58,6 +58,9 @@ def terrain():
 
 
 def balle_gauche(delta, start):
+    led_orange_g = [26, 27]
+    led_verte_g = [23, 24, 25]
+    led_rouge_g = [28]
     # de gauche à droite
     for i in range(start, NP_LED_COUNT_0):
 
@@ -88,6 +91,9 @@ def balle_gauche(delta, start):
 
 
 def balle_droite(delta, start):
+    led_verte_d = [4, 5, 6]
+    led_orange_d = [2, 3]
+    led_rouge_d = [1]
     # de droite à gauche
     for i in range(start, -1, -1):
 
@@ -186,8 +192,8 @@ def game(droite, i, delta):
 
 
 if __name__ == '__main__':
-    #sense, i, delta = on_start()
-    #game(sense, i, delta)
+    sense, i, delta = on_start()
+    game(sense, i, delta)
     eteindre(1)
     
     # pb balle continue apres appuit sur bouton 
