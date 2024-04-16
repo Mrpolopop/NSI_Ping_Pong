@@ -3,11 +3,19 @@ import neopixel
 import time
 from random import randint
 
+#############################
+####      variables      ####
+#############################
+
 NP_LED_COUNT_0 = 30
 
 # Neopixel on pin0
 np_0 = neopixel.NeoPixel(pin0, NP_LED_COUNT_0)
 
+
+#############################
+####      fonctions      ####
+#############################
 
 def terrain():
     led_rouge = [1, 28]
@@ -34,7 +42,7 @@ def terrain():
 
 
 def balle_gauche(delta, start):
-    # de droite à gauche
+    # de gauche à droite
     for i in range(start, NP_LED_COUNT_0):
 
         # affichage
@@ -46,14 +54,15 @@ def balle_gauche(delta, start):
         np_0.show()
 
         # event listener
-        if button_b.was_pressed():
+        if button_b.is_pressed():
+            print('gauche')
             return i
         elif i == 29:
             return False
 
 
 def balle_droite(delta, start):
-    # de gauche à droite
+    # de droite à gauche
     for i in range(start, -1, -1):
 
         # affichage
@@ -65,7 +74,8 @@ def balle_droite(delta, start):
         np_0.show()
 
         # event listener
-        if button_a.was_pressed():
+        if button_a.is_pressed():
+            print('droite')
             return i
         elif i == 0:
             return False
@@ -84,34 +94,14 @@ def service_depart():
     nombre = randint(1, 2)
     i = None
     if nombre == 1:
-        i = balle_droite(0.15, 14)
-        return True, i
+        return True, 14
     else:
-        i = balle_gauche(0.15, 14)
-        return False, i
+        return False, 14
 
-# utiliser fonc game() dans fichier jeu.py
 
-def jeu():
-    terrain()
-    droite, i = service_depart()
-
-    while True:
-        if droite:
-
-            droite = False
-            if i == False:
-                break
-            else:
-                i = balle_gauche(0.3, i)
-
-        else:
-            droite = True
-            if i == False:
-                break
-            else:
-                i = balle_droite(0.3, i)
-
+#################################
+####      boucle de jeu      ####
+#################################
 
 def on_start():
     terrain()
@@ -125,8 +115,10 @@ def game(droite, i):
 
     while compteur_jd < 11 and compteur_jg < 11:
 
-        # balle gauche → droite
+        # balle droite à gauche
         if droite:
+          
+            display.show(compteur_jd)
             # result = i si bonne balle False sinon
             result = balle_droite(0.15, i)
 
@@ -137,8 +129,10 @@ def game(droite, i):
                 i = result
                 droite = False
 
-        # baller droite -> gauche
+        # baller gauche à droite
         else:
+            
+            display.show(compteur_jg)
             # result = i si bonne balle False sinon
             result = balle_gauche(0.15, i)
 
@@ -153,5 +147,8 @@ def game(droite, i):
 
 
 if __name__ == '__main__':
-    sens, i = on_start()
-    game(sens, i)
+    #sense, i = on_start()
+    #game(sense, i)
+    eteindre(1)
+    
+    # pb balle continue apres appuit sur bouton 
