@@ -5,6 +5,7 @@ import time
 from random import randint
 
 NP_LED_COUNT_0 = 30
+#   Ta geule ... et ta gaule aussi !!! 
 
 # Neopixel on pin0
 np_0 = neopixel.NeoPixel(pin0, NP_LED_COUNT_0)
