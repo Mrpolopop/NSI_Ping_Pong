@@ -12,40 +12,34 @@ lcd.writeTxt('J1 : ')
 lcd.setCursor(0, 1)
 lcd.writeTxt('J2 : ')
 
-#############################
-####      variables      ####
-#############################
+"""
+VARIABLES :
+Définition de chaque led dans la bande ainsi que les zones vertes, oranges et rouges.
+"""
 
 NP_LED_COUNT_0 = 30
-
-# Neopixel on pin0
 np_0 = neopixel.NeoPixel(pin0, NP_LED_COUNT_0)
 
 led_rouge = [1, 28]
 led_orange = [2, 3, 26, 27]
 led_verte = [4, 5, 6, 23, 24, 25]
-led_rouge_g = [1]
-led_rouge_d = [28]
-led_orange_g = [2, 3] 
-led_orange_d = [26, 27]
-led_verte_g = [4, 5, 6]
-led_verte_d = [23, 24, 25]
+led_rouge_d = [1]
+led_rouge_g = [28]
+led_orange_d = [2, 3]
+led_orange_g = [26, 27]
+led_verte_d = [4, 5, 6]
+led_verte_g = [23, 24, 25]
 
 
-#############################
-####      fonctions      ####
-#############################
+"""
+FONCTIONS : 
+"""
+
 
 def terrain():
-    led_rouge = [1, 28]
-    led_orange = [2, 3, 26, 27]
-    led_verte = [4, 5, 6, 23, 24, 25]
-    led_rouge_d = [1]
-    led_rouge_g = [28]
-    led_orange_d = [2, 3] 
-    led_orange_g = [26, 27]
-    led_verte_d= [4, 5, 6]
-    led_verte_g = [23, 24, 25]
+    """
+    Cette fonction s'occupe d'afficher le terrain défini précédemment sur la bande led
+    """
 
     for led in led_rouge:
         np_0[led] = (255, 0, 0)
@@ -59,17 +53,14 @@ def terrain():
     np_0.show()
 
 
-# def ecran_lcd():
-
-#  lcd.clear()
-#  lcd.getCursor(0, 0)
-#  lcd.writeTxt('Joueur 1')
-
-
 def balle_gauche(delta, start):
-    led_orange_g = [26, 27]
-    led_verte_g = [23, 24, 25]
-    led_rouge_g = [28]
+    """
+    :param delta: une vitesse variable que prend la balle au moment où elle
+     sera renvoyée vers la gauche selon la zone où elle a été interceptée.
+    :param start: La position d'où part la balle
+    :return: va renvoyer une liste comprennant la vitesse que la
+    balle aura ainsi que sa position
+    """
     # de gauche à droite
     for i in range(start, NP_LED_COUNT_0):
 
@@ -81,28 +72,33 @@ def balle_gauche(delta, start):
         np_0[i] = color
         np_0.show()
 
-        # event listener
+        # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
+        # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
         if button_a.is_pressed():
-          if i in led_verte_g:
-            return [i , 0.10]
-          
-          elif i in led_orange_g:
-            return [i, 0.07]
-          
-          elif i in led_rouge_g:
-            return [i, 0.04]
-            
-          else:
-            return False
-          
+            if i in led_verte_g:
+                return [i, 0.10]
+
+            elif i in led_orange_g:
+                return [i, 0.07]
+
+            elif i in led_rouge_g:
+                return [i, 0.04]
+
+            else:
+                return False
+
         elif i == 28:
             return False
 
 
 def balle_droite(delta, start):
-    led_verte_d = [4, 5, 6]
-    led_orange_d = [2, 3]
-    led_rouge_d = [1]
+    """
+    :param delta: une vitesse variable que prend la balle au moment où elle
+    sera renvoyée vers la droite selon la zone où elle a été interceptée.
+    :param start: La position d'où part la balle
+    :return: va renvoyer une liste comprennant la vitesse que la
+    balle aura ainsi que sa position
+    """
     # de droite à gauche
     for i in range(start, -1, -1):
 
@@ -114,60 +110,78 @@ def balle_droite(delta, start):
         np_0[i] = color
         np_0.show()
 
-        # event listener
+        # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
+        # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
         if button_b.is_pressed():
-          if i in led_verte_d:
-            print('droite')
-            return [i , 0.1]
-          
-          elif i in led_orange_d:
-            return [i, 0.07]
-          
-          elif i in led_rouge_d:
-            return [i, 0.04]
-            
-          else:
-            return False
-          
+            if i in led_verte_d:
+                print('droite')
+                return [i, 0.1]
+
+            elif i in led_orange_d:
+                return [i, 0.07]
+
+            elif i in led_rouge_d:
+                return [i, 0.04]
+
+            else:
+                return False
+
         elif i == 1:
             return False
 
 
 def eteindre(temps):
+    """
+    Cette fonction sert à éteindre la bande led afin qu'elle ne soit pas en fonctionnement
+    après son utilisation, après un test ou une partie
+    :param temps: Valeur qui détermine au bout de combien de temps la bande led s'éteint
+    """
     time.sleep(temps)
 
+    # toutes les leds perdent leur couleur donc s'éteindront quand on affichera cela
     for i in range(NP_LED_COUNT_0):
         np_0[i] = (0, 0, 0)
 
+    # affiche donc l'exécution ci dessus et éteint les leds
     np_0.show()
 
 
 def service_depart():
+    """
+    :return: Fonction qui sert à faire un service qui enverra la balle
+    dans une direction aléatoire
+    """
+    # on décide de quel coté la balle va partir
     nombre = randint(1, 2)
-    i = None
     if nombre == 1:
         return True, 14, 0.1
     else:
         return False, 14, 0.1
 
 
-#################################
-####      boucle de jeu      ####
-#################################
+"""
+LE JEU :
+"""
+
 
 def on_start():
+    """
+    initialise le terrain et lance le jeu
+    """
     terrain()
     return service_depart()
 
 
 def game(droite, i, delta):
 
+    # On initialise le score des deux joueurs
     compteur_jd = 0
     compteur_jg = 0
-    
+
+    # On pose la condition de jeu pour qu'il s'arrête au bout de 5 points
     while compteur_jd < 5 and compteur_jg < 5:
-        
-        # balle droite à gauche
+
+        # balle de droite à gauche
         if droite:
 
             # result = i si bonne balle False sinon
@@ -181,7 +195,7 @@ def game(droite, i, delta):
                 delta = result[1]
                 droite = False
 
-        # baller gauche à droite
+        # balle de gauche à droite
         else:
             # result = i si bonne balle False sinon
             result = balle_gauche(delta, i)
@@ -193,27 +207,29 @@ def game(droite, i, delta):
                 i = result[0]
                 delta = result[1]
                 droite = True
-        
+
+        # On affiche ensuite les résultats en temps réel sur le petit écran lcd
+
         points_jg = 'J1 : ' + str(compteur_jg)
         lcd.clear()
         lcd.setCursor(0, 0)
         lcd.writeTxt(points_jg)
-        
+
         points_jd = 'J2 : ' + str(compteur_jd)
         lcd.setCursor(0, 1)
         lcd.writeTxt(points_jd)
-        
+
+    # Lorsque l'un des joueurs est arrivé au nombre de points requis, on affiche le gagnant
     if compteur_jd == 5:
-      lcd.clear()
-      lcd.setCursor(0,0)
-      lcd.writeTxt('J2 a gagne !! :)')
-     
+        lcd.clear()
+        lcd.setCursor(0, 0)
+        lcd.writeTxt('J2 a gagne !! :)')
+
     else:
-      lcd.clear()
-      lcd.setCursor(0,0)
-      lcd.writeTxt('J1 a gagne !! :)')
-    
-    
+        lcd.clear()
+        lcd.setCursor(0, 0)
+        lcd.writeTxt('J1 a gagne !! :)')
+
     eteindre(5)
 
 
@@ -222,4 +238,3 @@ if __name__ == '__main__':
     game(sense, i, delta)
     eteindre(1)
     
-    # pb balle continue apres appuit sur bouton 
