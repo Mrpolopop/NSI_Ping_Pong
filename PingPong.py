@@ -164,9 +164,9 @@ def game(droite, i, delta):
 
     compteur_jd = 0
     compteur_jg = 0
-
+    
     while compteur_jd < 5 and compteur_jg < 5:
-
+        
         # balle droite à gauche
         if droite:
 
@@ -194,15 +194,26 @@ def game(droite, i, delta):
                 delta = result[1]
                 droite = True
         
-        points_jd = 'J1 : ' + str(compteur_jg)
+        points_jg = 'J1 : ' + str(compteur_jg)
         lcd.clear()
         lcd.setCursor(0, 0)
-        lcd.writeTxt(points_jd)
-        
-        points_jg = 'J2 : ' + str(compteur_jd)
-        lcd.setCursor(0, 1)
         lcd.writeTxt(points_jg)
         
+        points_jd = 'J2 : ' + str(compteur_jd)
+        lcd.setCursor(0, 1)
+        lcd.writeTxt(points_jd)
+        
+    if compteur_jd == 5:
+      lcd.clear()
+      lcd.setCursor(0,0)
+      lcd.writeTxt('J2 a gagne !! :)')
+     
+    else:
+      lcd.clear()
+      lcd.setCursor(0,0)
+      lcd.writeTxt('J1 a gagne !! :)')
+    
+    
     eteindre(5)
 
 
