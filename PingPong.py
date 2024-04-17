@@ -2,6 +2,15 @@ from microbit import *
 import neopixel
 import time
 from random import randint
+from lcd_i2c import LCD1602
+
+lcd = LCD1602()
+
+lcd.clear()
+lcd.setCursor(0, 0)
+lcd.writeTxt('J1 : ')
+lcd.setCursor(0, 1)
+lcd.writeTxt('J2 : ')
 
 #############################
 ####      variables      ####
@@ -73,15 +82,15 @@ def balle_gauche(delta, start):
         np_0.show()
 
         # event listener
-        if button_b.is_pressed():
+        if button_a.is_pressed():
           if i in led_verte_g:
-            return [i , 0.12]
+            return [i , 0.10]
           
           elif i in led_orange_g:
-            return [i, 0.08]
+            return [i, 0.07]
           
           elif i in led_rouge_g:
-            return [i, 0.06]
+            return [i, 0.04]
             
           else:
             return False
@@ -106,16 +115,16 @@ def balle_droite(delta, start):
         np_0.show()
 
         # event listener
-        if button_a.is_pressed():
+        if button_b.is_pressed():
           if i in led_verte_d:
             print('droite')
-            return [i , 0.12]
+            return [i , 0.1]
           
           elif i in led_orange_d:
-            return [i, 0.08]
+            return [i, 0.07]
           
           elif i in led_rouge_d:
-            return [i, 0.06]
+            return [i, 0.04]
             
           else:
             return False
@@ -137,9 +146,9 @@ def service_depart():
     nombre = randint(1, 2)
     i = None
     if nombre == 1:
-        return True, 14, 0.12
+        return True, 14, 0.1
     else:
-        return False, 14, 0.12
+        return False, 14, 0.1
 
 
 #################################
@@ -156,12 +165,11 @@ def game(droite, i, delta):
     compteur_jd = 0
     compteur_jg = 0
 
-    while compteur_jd < 11 and compteur_jg < 11:
+    while compteur_jd < 5 and compteur_jg < 5:
 
         # balle droite à gauche
         if droite:
-          
-            display.show(compteur_jd)
+
             # result = i si bonne balle False sinon
             result = balle_droite(delta, i)
 
@@ -175,8 +183,6 @@ def game(droite, i, delta):
 
         # baller gauche à droite
         else:
-            
-            display.show(compteur_jg)
             # result = i si bonne balle False sinon
             result = balle_gauche(delta, i)
 
@@ -187,7 +193,16 @@ def game(droite, i, delta):
                 i = result[0]
                 delta = result[1]
                 droite = True
-
+        
+        points_jd = 'J1 : ' + str(compteur_jg)
+        lcd.clear()
+        lcd.setCursor(0, 0)
+        lcd.writeTxt(points_jd)
+        
+        points_jg = 'J2 : ' + str(compteur_jd)
+        lcd.setCursor(0, 1)
+        lcd.writeTxt(points_jg)
+        
     eteindre(5)
 
 
