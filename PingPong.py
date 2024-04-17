@@ -166,7 +166,11 @@ def service_depart():
 
 
 def smash(droite):
-  
+  """
+  droite: booléen correspondant au sens d'entrée
+  animation du smash
+  :return: None 
+  """
   if droite:
     for i in range(1, NP_LED_COUNT_0):
 
