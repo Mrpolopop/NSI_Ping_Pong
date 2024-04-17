@@ -82,8 +82,11 @@ def balle_gauche(delta, start):
                 return [i, 0.07]
 
             elif i in led_rouge_g:
-                return [i, 0.04]
-
+                if delta == 0.04:
+                  return 'smash'
+                else:
+                  return [i, 0.04]
+                    
             else:
                 return False
 
@@ -121,7 +124,10 @@ def balle_droite(delta, start):
                 return [i, 0.07]
 
             elif i in led_rouge_d:
-                return [i, 0.04]
+                if delta == 0.04:
+                  return 'smash'
+                else:
+                  return [i, 0.04]
 
             else:
                 return False
@@ -159,6 +165,31 @@ def service_depart():
         return False, 14, 0.1
 
 
+def smash(droite):
+  
+  if droite:
+    for i in range(1, NP_LED_COUNT_0):
+
+        # affichage
+        color = np_0[i]
+        np_0[i] = (200, 0, 200)
+        np_0.show()
+        time.sleep(0.03)
+        np_0[i] = color
+        np_0.show()
+        
+  else:
+    for i in range(28, -1, -1):
+
+        # affichage
+        color = np_0[i]
+        np_0[i] = (200, 0, 200)
+        np_0.show()
+        time.sleep(0.03)
+        np_0[i] = color
+        np_0.show()
+
+
 """
 LE JEU :
 """
@@ -190,6 +221,12 @@ def game(droite, i, delta):
             if not result:
                 compteur_jd += 1
                 droite, i, delta = service_depart()
+            
+            elif result == 'smash':
+                compteur_jg += 1
+                smash(droite)
+                droite, i, delta = service_depart()
+            
             else:
                 i = result[0]
                 delta = result[1]
@@ -203,6 +240,12 @@ def game(droite, i, delta):
             if not result:
                 compteur_jg += 1
                 droite, i, delta = service_depart()
+            
+            elif result == 'smash':
+                compteur_jg += 1
+                smash(droite)
+                droite, i, delta = service_depart()
+            
             else:
                 i = result[0]
                 delta = result[1]
