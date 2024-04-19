@@ -3,6 +3,7 @@ import neopixel
 import time
 from random import randint
 from lcd_i2c import LCD1602
+import music
 
 lcd = LCD1602()
 
@@ -29,7 +30,7 @@ led_orange_d = [2, 3]
 led_orange_g = [26, 27]
 led_verte_d = [4, 5, 6]
 led_verte_g = [23, 24, 25]
-
+set_volume(100)
 
 """
 FONCTIONS : 
@@ -75,11 +76,13 @@ def balle_gauche(delta, start):
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
         if button_a.is_pressed():
+            music.pitch(440, duration=150)
             if i in led_verte_g:
                 return [i, 0.10]
-
+                
             elif i in led_orange_g:
                 return [i, 0.07]
+                
 
             elif i in led_rouge_g:
                 if delta == 0.04:
@@ -88,9 +91,15 @@ def balle_gauche(delta, start):
                   return [i, 0.04]
                     
             else:
-                return False
+              music.pitch(340, duration=150)
+              time.sleep(0.1)
+              music.pitch(340, duration=150)
+              return False
 
         elif i == 28:
+            music.pitch(340, duration=150)
+            time.sleep(0.1)
+            music.pitch(340, duration=150)
             return False
 
 
@@ -116,12 +125,12 @@ def balle_droite(delta, start):
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
         if button_b.is_pressed():
+            music.pitch(400, duration=150)
             if i in led_verte_d:
-                print('droite')
                 return [i, 0.1]
 
             elif i in led_orange_d:
-                return [i, 0.07]
+              return [i, 0.07]
 
             elif i in led_rouge_d:
                 if delta == 0.04:
@@ -130,10 +139,16 @@ def balle_droite(delta, start):
                   return [i, 0.04]
 
             else:
-                return False
+              music.pitch(340, duration=150)
+              time.sleep(0.1)
+              music.pitch(340, duration=150)
+              return False
 
         elif i == 1:
-            return False
+          music.pitch(340, duration=150)
+          time.sleep(0.1)
+          music.pitch(340, duration=150)
+          return False
 
 
 def eteindre(temps):
@@ -166,11 +181,7 @@ def service_depart():
 
 
 def smash(droite):
-  """
-  droite: booléen correspondant au sens d'entrée
-  animation du smash
-  :return: None 
-  """
+  
   if droite:
     for i in range(1, NP_LED_COUNT_0):
 
@@ -204,6 +215,9 @@ def on_start():
     initialise le terrain et lance le jeu
     """
     terrain()
+    music.pitch(340, duration=150)
+    time.sleep(0.1)
+    music.pitch(340, duration=150)
     return service_depart()
 
 
@@ -246,7 +260,7 @@ def game(droite, i, delta):
                 droite, i, delta = service_depart()
             
             elif result == 'smash':
-                compteur_jg += 1
+                compteur_jd += 1
                 smash(droite)
                 droite, i, delta = service_depart()
             
