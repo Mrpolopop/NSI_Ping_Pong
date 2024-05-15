@@ -3,9 +3,15 @@ import neopixel
 import time
 from random import randint
 from lcd_i2c import LCD1602
+import music
+import radio
+
+
+"""
+On allume l'écran lcd et on l'initialise à son affichage de base
+"""
 
 lcd = LCD1602()
-
 lcd.clear()
 lcd.setCursor(0, 0)
 lcd.writeTxt('J1 : ')
@@ -29,7 +35,7 @@ led_orange_d = [2, 3]
 led_orange_g = [26, 27]
 led_verte_d = [4, 5, 6]
 led_verte_g = [23, 24, 25]
-
+set_volume(100)
 
 """
 FONCTIONS : 
@@ -74,7 +80,8 @@ def balle_gauche(delta, start):
 
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
-        if button_a.is_pressed():
+        if button_b.is_pressed():
+            music.pitch(440, duration=150)
             if i in led_verte_g:
                 return [i, 0.10]
 
@@ -83,14 +90,20 @@ def balle_gauche(delta, start):
 
             elif i in led_rouge_g:
                 if delta == 0.04:
-                  return 'smash'
+                    return 'smash'
                 else:
-                  return [i, 0.04]
-                    
+                    return [i, 0.04]
+
             else:
+                music.pitch(340, duration=150)
+                time.sleep(0.1)
+                music.pitch(340, duration=150)
                 return False
 
-        elif i == 28:
+        elif i >= 28:
+            music.pitch(340, duration=150)
+            time.sleep(0.1)
+            music.pitch(340, duration=150)
             return False
 
 
@@ -115,9 +128,9 @@ def balle_droite(delta, start):
 
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
-        if button_b.is_pressed():
+        if button_a.is_pressed():
+            music.pitch(400, duration=150)
             if i in led_verte_d:
-                print('droite')
                 return [i, 0.1]
 
             elif i in led_orange_d:
@@ -125,14 +138,20 @@ def balle_droite(delta, start):
 
             elif i in led_rouge_d:
                 if delta == 0.04:
-                  return 'smash'
+                    return 'smash'
                 else:
-                  return [i, 0.04]
+                    return [i, 0.04]
 
             else:
+                music.pitch(340, duration=150)
+                time.sleep(0.1)
+                music.pitch(340, duration=150)
                 return False
 
-        elif i == 1:
+        elif i <= 1:
+            music.pitch(340, duration=150)
+            time.sleep(0.1)
+            music.pitch(340, duration=150)
             return False
 
 
@@ -150,7 +169,6 @@ def eteindre(temps):
 
     # affiche donc l'exécution ci dessus et éteint les leds
     np_0.show()
-    lcd.clear()
 
 
 def service_depart():
@@ -167,32 +185,25 @@ def service_depart():
 
 
 def smash(droite):
-  """
-  droite: booléen correspondant au sens d'entrée
-  animation du smash
-  :return: None 
-  """
-  if droite:
-    for i in range(1, NP_LED_COUNT_0):
+    if droite:
+        for i in range(1, NP_LED_COUNT_0):
+            # affichage
+            color = np_0[i]
+            np_0[i] = (200, 0, 200)
+            np_0.show()
+            time.sleep(0.03)
+            np_0[i] = color
+            np_0.show()
 
-        # affichage
-        color = np_0[i]
-        np_0[i] = (152, 25, 218)
-        np_0.show()
-        time.sleep(0.03)
-        np_0[i] = color
-        np_0.show()
-        
-  else:
-    for i in range(28, -1, -1):
-
-        # affichage
-        color = np_0[i]
-        np_0[i] = (152, 44, 218)
-        np_0.show()
-        time.sleep(0.03)
-        np_0[i] = color
-        np_0.show()
+    else:
+        for i in range(28, -1, -1):
+            # affichage
+            color = np_0[i]
+            np_0[i] = (200, 0, 200)
+            np_0.show()
+            time.sleep(0.03)
+            np_0[i] = color
+            np_0.show()
 
 
 """
@@ -205,11 +216,13 @@ def on_start():
     initialise le terrain et lance le jeu
     """
     terrain()
+    music.pitch(340, duration=150)
+    time.sleep(0.1)
+    music.pitch(340, duration=150)
     return service_depart()
 
 
 def game(droite, i, delta):
-
     # On initialise le score des deux joueurs
     compteur_jd = 0
     compteur_jg = 0
@@ -225,13 +238,15 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jd += 1
+                time.sleep(1)
                 droite, i, delta = service_depart()
-            
+
             elif result == 'smash':
                 compteur_jg += 1
                 smash(droite)
+                time.sleep(1)
                 droite, i, delta = service_depart()
-            
+
             else:
                 i = result[0]
                 delta = result[1]
@@ -244,13 +259,15 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jg += 1
+                time.sleep(1)
                 droite, i, delta = service_depart()
-            
+
             elif result == 'smash':
-                compteur_jg += 1
+                compteur_jd += 1
                 smash(droite)
+                time.sleep(1)
                 droite, i, delta = service_depart()
-            
+
             else:
                 i = result[0]
                 delta = result[1]
@@ -282,7 +299,6 @@ def game(droite, i, delta):
 
 
 if __name__ == '__main__':
-    #sense, i, delta = on_start()
-    #game(sense, i, delta)
+    sense, i, delta = on_start()
+    game(sense, i, delta)
     eteindre(1)
-    
