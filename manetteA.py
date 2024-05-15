@@ -5,4 +5,4 @@ radio.on()
 
 while True:
   if button_a.is_pressed():
-    radio.send("B")
+    radio.send("A")
