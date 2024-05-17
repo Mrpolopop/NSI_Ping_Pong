@@ -8,4 +8,4 @@ display.show("D")
 
 while True:
   if button_a.is_pressed():
-    radio.send("B")
+    radio.send("bouton_B")
