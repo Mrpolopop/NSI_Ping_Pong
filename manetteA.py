@@ -8,5 +8,3 @@ display.show("G")
 while True:
   if button_a.is_pressed():
     radio.send("bouton_A")
-  else:
-    radio.send("null")
