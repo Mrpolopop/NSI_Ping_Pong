@@ -6,6 +6,11 @@ from lcd_i2c import LCD1602
 import music
 import radio
 
+"""
+configuration de la radio:
+"""
+radio.on()
+radio.config(channel = 12, power = 6, length = 32, group=12)
 
 """
 On allume l'écran lcd et on l'initialise à son affichage de base
