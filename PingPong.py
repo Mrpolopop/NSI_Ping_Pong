@@ -243,13 +243,15 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jd += 1
-                time.sleep(1)
+                time.sleep(2)
+                radio.receive()
                 droite, i, delta = service_depart()
 
             elif result == 'smash':
                 compteur_jg += 1
                 smash(droite)
-                time.sleep(1)
+                time.sleep(2)
+                radio.receive()
                 droite, i, delta = service_depart()
 
             else:
@@ -264,13 +266,15 @@ def game(droite, i, delta):
 
             if not result:
                 compteur_jg += 1
-                time.sleep(1)
+                time.sleep(2)
+                radio.receive()
                 droite, i, delta = service_depart()
 
             elif result == 'smash':
                 compteur_jd += 1
                 smash(droite)
-                time.sleep(1)
+                time.sleep(2)
+                radio.receive()
                 droite, i, delta = service_depart()
 
             else:
