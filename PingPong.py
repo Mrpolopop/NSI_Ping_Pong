@@ -85,7 +85,7 @@ def balle_gauche(delta, start):
 
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
-        if radio.receive() == "B":
+        if radio.receive() == "bouton_B":
             music.pitch(440, duration=150)
             if i in led_verte_g:
                 return [i, 0.10]
@@ -133,7 +133,7 @@ def balle_droite(delta, start):
 
         # Détermine en fonction de la zone dans laquelle on la renvoie la vitesse que prendra
         # la balle -> zone verte = lente, zone orange = rapide, zone rouge = très rapide
-        if radio.receive() == "A":
+        if radio.receive() == "bouton_A":
             music.pitch(400, duration=150)
             if i in led_verte_d:
                 return [i, 0.1]
